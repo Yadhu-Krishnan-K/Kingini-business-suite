@@ -1,0 +1,41 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "prepare": "husky install",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "precommit": "lint-staged",
+    "prepush": "npm run lint && npm run test",
+    "postinstall": "husky install",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.15.3",
+    "eslint": "^9.39.1",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.7.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}
