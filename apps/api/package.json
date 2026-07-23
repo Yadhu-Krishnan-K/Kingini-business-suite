@@ -11,13 +11,11 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
-    "prepare": "husky install",
     "lint:fix": "eslint . --ext .ts --fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "precommit": "lint-staged",
     "prepush": "npm run lint && npm run test",
-    "postinstall": "husky install",
     "clean": "rm -rf dist"
   },
   "keywords": [],
