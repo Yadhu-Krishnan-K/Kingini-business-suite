@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { authRouter } from "../modules/auth";
+import { authRouter } from "../modules/auth/index.ts";
 
 const router: Router = Router();
 
