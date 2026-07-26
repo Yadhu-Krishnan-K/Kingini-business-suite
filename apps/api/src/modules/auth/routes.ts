@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { health } from "./controller.ts";
+import { authController } from "./controller.ts";
 
 const router: Router = Router();
 
-router.get("/health", health);
+router.post("/register", authController.register);
 
 export default router;

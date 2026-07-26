@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { authRouter } from "../modules/auth/index.ts";
+import { authRoutes } from "../modules/auth/index.ts";
 
 const router: Router = Router();
 
@@ -11,6 +11,6 @@ router.get("/health", (_, res) => {
   });
 });
 
-router.use("/auth", authRouter);
+router.use("/auth", authRoutes);
 
 export default router;

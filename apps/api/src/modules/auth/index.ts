@@ -1,1 +1,1 @@
-export { default as authRouter } from "./routes.ts";
+export { default as authRoutes } from "./routes.ts";

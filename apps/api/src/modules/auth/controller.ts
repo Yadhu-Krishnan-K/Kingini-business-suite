@@ -1,18 +1,25 @@
-import { type Request, type Response } from "express";
-import { getHealthMessage } from "./service.ts";
+import { type NextFunction, type Request, type Response } from "express";
+
+import { authService } from "./service.ts";
+import { registerUserSchema } from "./validator.ts";
 import { sendResponse } from "../../utils/sendResponse.ts";
 
-export const health = (_req: Request, res: Response) => {
-  const message = getHealthMessage();
+class AuthController {
+  async register(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = registerUserSchema.parse(req.body);
 
-  // res.status(200).json({
-  //   success: true,
-  //   message,
-  // });
+      const user = await authService.register(data);
 
-  return sendResponse(res, {
-    message,
-    data: null,
-  });
+      return sendResponse(res, {
+        statusCode: 201,
+        message: "User registered successfully.",
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+}
 
-};
+export const authController = new AuthController();
