@@ -7,9 +7,6 @@ import { config } from "dotenv";
 config({
   path: path.resolve(process.cwd(), "../../.env"),
 });
-console.log("DATABASE_URL =", process.env.DATABASE_URL);
-console.log("DATABASE_URL type =", typeof process.env.DATABASE_URL);
-console.log("TEST_DATABASE_URL =", process.env.TEST_DATABASE_URL);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

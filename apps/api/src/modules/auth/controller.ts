@@ -6,6 +6,7 @@ import {
   loginSchema
 } from "./validator.ts";
 import { sendResponse } from "../../utils/sendResponse.ts";
+import { AppError } from "../../utils/AppError.ts";
 
 class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
@@ -52,6 +53,47 @@ class AuthController {
           lastName: result.lastName,
           email: result.email,
         },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async refresh(req: Request, res: Response, next: NextFunction) {
+    try {
+      const refreshToken = req.cookies.refreshToken;
+
+      if (!refreshToken) {
+        throw new AppError(401, "Refresh token is missing.");
+      }
+
+      const accessToken =
+        await authService.refreshAccessToken(refreshToken);
+
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000,
+      });
+
+      return sendResponse(res, {
+        statusCode: 200,
+        message: "Access token refreshed successfully.",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await authService.me(req.user!.userId);
+
+      return sendResponse(res, {
+        statusCode: 200,
+        message: "Current user fetched successfully.",
+        data: user,
       });
     } catch (error) {
       next(error);

@@ -9,8 +9,10 @@ import type {
 } from "./dto.ts";
 import {
   generateAccessToken,
-  generateRefreshToken
+  generateRefreshToken,
+  verifyRefreshToken
 } from "../../utils/jwt.ts";
+import { toUserResponse } from "./mapper.ts";
 
 class AuthService {
   async register(data: RegisterUserDto): Promise<RegisteredUserDto> {
@@ -72,6 +74,34 @@ class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async refreshAccessToken(refreshToken: string): Promise<string> {
+    const payload = verifyRefreshToken(refreshToken);
+
+    const user = await authRepository.findById(payload.userId);
+
+    if (!user) {
+      throw new AppError(401, "Invalid refresh token.");
+    }
+
+    const accessToken = generateAccessToken({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return accessToken;
+  }
+
+  async me(userId: string): Promise<RegisteredUserDto> {
+    const user = await authRepository.findById(userId);
+
+    if (!user) {
+      throw new AppError(404, "User not found.");
+    }
+
+    return toUserResponse(user);
   }
 }
 

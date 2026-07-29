@@ -1,5 +1,5 @@
 import { prisma } from "@repo/database";
-import type { Prisma } from "@repo/database";
+// import type { Prisma } from "@repo/database";
 
 type CreateUserData = {
   firstName: string;
@@ -15,11 +15,17 @@ export class AuthRepository {
     });
   }
 
+  async findById(id: string) {
+    return prisma.user.findUnique({
+      where: { id },
+    });
+  }
+
   async create(data: CreateUserData) {
     return prisma.user.create({
       data,
     });
-    
+
   }
 }
 
