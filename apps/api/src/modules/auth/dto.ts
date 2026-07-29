@@ -11,3 +11,17 @@ export interface RegisteredUserDto {
   lastName: string | null;
   email: string;
 }
+
+export interface LoginDto {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponseDto {
+  id: string;
+  firstName: string;
+  lastName: string | null;
+  email: string;
+  accessToken: string;
+  refreshToken: string;
+}

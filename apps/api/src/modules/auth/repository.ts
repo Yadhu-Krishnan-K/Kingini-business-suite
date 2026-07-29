@@ -2,7 +2,8 @@ import { prisma } from "@repo/database";
 import type { Prisma } from "@repo/database";
 
 type CreateUserData = {
-  name: string;
+  firstName: string;
+  lastName: string | null;
   email: string;
   password: string;
 };

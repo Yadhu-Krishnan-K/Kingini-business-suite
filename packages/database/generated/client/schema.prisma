@@ -1,15 +1,186 @@
-datasource db {
-  provider = "postgresql"
-}
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/client"
 }
 
+datasource db {
+  provider = "postgresql"
+}
+
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id         String    @id @default(uuid())
+  email      String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  firstName  String
+  isVerified Boolean   @default(false)
+  lastName   String?
+  password   String
+  phone      String?   @unique
+  role       UserRole  @default(CUSTOMER)
+  addresses  Address[]
+  cart       Cart?
+  orders     Order[]
+  wishlist   Wishlist?
+
+  @@index([email])
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  userId       String
+  fullName     String
+  phone        String
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  country      String
+  postalCode   String
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id          String           @id @default(uuid())
+  categoryId  String
+  name        String
+  slug        String           @unique
+  description String
+  brand       String?
+  isPublished Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  category    Category         @relation(fields: [categoryId], references: [id])
+  images      ProductImage[]
+  variants    ProductVariant[]
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  productId String
+  imageUrl  String
+  publicId  String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model ProductVariant {
+  id         String      @id @default(uuid())
+  productId  String
+  size       String
+  color      String
+  sku        String      @unique
+  price      Decimal     @db.Decimal(10, 2)
+  stock      Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String         @id @default(uuid())
+  cartId    String
+  variantId String
+  quantity  Int
+  cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@unique([cartId, variantId])
+  @@index([cartId])
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  userId        String
+  totalAmount   Decimal       @db.Decimal(10, 2)
+  orderStatus   OrderStatus   @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  user          User          @relation(fields: [userId], references: [id])
+  items         OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id        String         @id @default(uuid())
+  orderId   String
+  variantId String
+  quantity  Int
+  price     Decimal        @db.Decimal(10, 2)
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@index([orderId])
+}
+
+model Coupon {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  discount      Int
+  minimumAmount Decimal?  @db.Decimal(10, 2)
+  expiresAt     DateTime?
+  usageLimit    Int?
+  createdAt     DateTime  @default(now())
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
 }

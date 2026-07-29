@@ -24,3 +24,16 @@ export const registerUserSchema = z.object({
 });
 
 export type RegisterUserSchema = z.infer<typeof registerUserSchema>;
+
+
+export const loginSchema = z.object({
+  email: z
+    .email("Invalid email address")
+    .trim(),
+
+  password: z
+    .string()
+    .min(1, "Password is required"),
+});
+
+export type LoginSchema = z.infer<typeof loginSchema>;
