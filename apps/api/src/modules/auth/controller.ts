@@ -7,6 +7,11 @@ import {
 } from "./validator.ts";
 import { sendResponse } from "../../utils/sendResponse.ts";
 import { AppError } from "../../utils/AppError.ts";
+import {
+  setAuthCookies,
+  setAccessTokenCookie,
+  clearAuthCookies
+} from "../../utils/cookies.ts";
 
 class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
@@ -30,19 +35,24 @@ class AuthController {
 
       const result = await authService.login(data);
 
-      res.cookie("accessToken", result.accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000, // 15 minutes
-      });
+      // res.cookie("accessToken", result.accessToken, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   sameSite: "strict",
+      //   maxAge: 15 * 60 * 1000, // 15 minutes
+      // });
 
-      res.cookie("refreshToken", result.refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+      // res.cookie("refreshToken", result.refreshToken, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   sameSite: "strict",
+      //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      // });
+      setAuthCookies(
+        res,
+        result.accessToken,
+        result.refreshToken,
+      );
 
       return sendResponse(res, {
         statusCode: 200,
@@ -70,12 +80,13 @@ class AuthController {
       const accessToken =
         await authService.refreshAccessToken(refreshToken);
 
-      res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
-      });
+      // res.cookie("accessToken", accessToken, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   sameSite: "strict",
+      //   maxAge: 15 * 60 * 1000,
+      // });
+      setAccessTokenCookie(res, accessToken);
 
       return sendResponse(res, {
         statusCode: 200,
@@ -94,6 +105,19 @@ class AuthController {
         statusCode: 200,
         message: "Current user fetched successfully.",
         data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      clearAuthCookies(res);
+
+      return sendResponse(res, {
+        statusCode: 200,
+        message: "Logout successful.",
       });
     } catch (error) {
       next(error);
