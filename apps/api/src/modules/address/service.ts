@@ -8,10 +8,9 @@ import type {
 } from "./dto.ts";
 
 class AddressService {
-  async create(
-    userId: string,
-    data: CreateAddressDto,
-  ): Promise<AddressResponseDto> {
+
+  async create( userId: string, data: CreateAddressDto,): Promise<AddressResponseDto> {
+
     if (data.isDefault) {
       await addressRepository.clearDefault(userId);
     }

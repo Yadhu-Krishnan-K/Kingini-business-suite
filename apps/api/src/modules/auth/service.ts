@@ -17,7 +17,7 @@ import { toUserResponse } from "./mapper.ts";
 class AuthService {
   async register(data: RegisterUserDto): Promise<RegisteredUserDto> {
     const existingUser = await authRepository.findByEmail(data.email);
-
+    
     if (existingUser) {
       throw new AppError(409, "Email already registered.");
     }

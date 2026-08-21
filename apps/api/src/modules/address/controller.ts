@@ -11,10 +11,13 @@ class AddressController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const data = createAddressSchema.parse(req.body);
+      const cleanData = Object.fromEntries(
+        Object.entries(data).filter(([, value]) => value !== undefined)
+      ) as any;
 
       const address = await addressService.create(
         req.user!.userId,
-        data,
+        cleanData,
       );
 
       return sendResponse(res, {
@@ -43,11 +46,14 @@ class AddressController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const data = updateAddressSchema.parse(req.body);
+      const cleanData = Object.fromEntries(
+        Object.entries(data).filter(([, value]) => value !== undefined)
+      ) as any;
 
       const address = await addressService.update(
         req.user!.userId,
-        req.params.id,
-        data,
+        req.params.id as string,
+        cleanData,
       );
 
       return sendResponse(res, {
@@ -61,7 +67,7 @@ class AddressController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await addressService.delete(req.user!.userId, req.params.id);
+      await addressService.delete(req.user!.userId, req.params.id as string);
 
       return sendResponse(res, {
         message: "Address deleted successfully.",
