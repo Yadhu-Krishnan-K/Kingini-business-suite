@@ -1,0 +1,1 @@
+export { categoryRoutes } from "./routes.ts";

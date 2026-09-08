@@ -1,5 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
+import { ZodError } from "zod";
 
 import { AppError } from "../utils/AppError.ts";
 
@@ -23,6 +24,14 @@ export function errorHandler(
     return res.status(401).json({
       success: false,
       message: "Invalid or expired token.",
+    });
+  }
+
+  if (err instanceof ZodError) {
+    return res.status(400).json({
+      success: false,
+      message: "Validation failed.",
+      errors: err.issues,
     });
   }
 
