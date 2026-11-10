@@ -59,6 +59,11 @@ export type CartItem = $Result.DefaultSelection<Prisma.$CartItemPayload>
  */
 export type Wishlist = $Result.DefaultSelection<Prisma.$WishlistPayload>
 /**
+ * Model WishlistItem
+ * 
+ */
+export type WishlistItem = $Result.DefaultSelection<Prisma.$WishlistItemPayload>
+/**
  * Model Order
  * 
  */
@@ -331,6 +336,16 @@ export class PrismaClient<
     * ```
     */
   get wishlist(): Prisma.WishlistDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.wishlistItem`: Exposes CRUD operations for the **WishlistItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WishlistItems
+    * const wishlistItems = await prisma.wishlistItem.findMany()
+    * ```
+    */
+  get wishlistItem(): Prisma.WishlistItemDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.order`: Exposes CRUD operations for the **Order** model.
@@ -817,6 +832,7 @@ export namespace Prisma {
     Cart: 'Cart',
     CartItem: 'CartItem',
     Wishlist: 'Wishlist',
+    WishlistItem: 'WishlistItem',
     Order: 'Order',
     OrderItem: 'OrderItem',
     Coupon: 'Coupon'
@@ -835,7 +851,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "address" | "category" | "product" | "productImage" | "productVariant" | "cart" | "cartItem" | "wishlist" | "order" | "orderItem" | "coupon"
+      modelProps: "user" | "address" | "category" | "product" | "productImage" | "productVariant" | "cart" | "cartItem" | "wishlist" | "wishlistItem" | "order" | "orderItem" | "coupon"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1505,6 +1521,80 @@ export namespace Prisma {
           }
         }
       }
+      WishlistItem: {
+        payload: Prisma.$WishlistItemPayload<ExtArgs>
+        fields: Prisma.WishlistItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WishlistItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WishlistItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>
+          }
+          findFirst: {
+            args: Prisma.WishlistItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WishlistItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>
+          }
+          findMany: {
+            args: Prisma.WishlistItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>[]
+          }
+          create: {
+            args: Prisma.WishlistItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>
+          }
+          createMany: {
+            args: Prisma.WishlistItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WishlistItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>[]
+          }
+          delete: {
+            args: Prisma.WishlistItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>
+          }
+          update: {
+            args: Prisma.WishlistItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.WishlistItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WishlistItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WishlistItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.WishlistItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WishlistItemPayload>
+          }
+          aggregate: {
+            args: Prisma.WishlistItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWishlistItem>
+          }
+          groupBy: {
+            args: Prisma.WishlistItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WishlistItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WishlistItemCountArgs<ExtArgs>
+            result: $Utils.Optional<WishlistItemCountAggregateOutputType> | number
+          }
+        }
+      }
       Order: {
         payload: Prisma.$OrderPayload<ExtArgs>
         fields: Prisma.OrderFieldRefs
@@ -1859,6 +1949,7 @@ export namespace Prisma {
     cart?: CartOmit
     cartItem?: CartItemOmit
     wishlist?: WishlistOmit
+    wishlistItem?: WishlistItemOmit
     order?: OrderOmit
     orderItem?: OrderItemOmit
     coupon?: CouponOmit
@@ -2015,11 +2106,13 @@ export namespace Prisma {
   export type ProductCountOutputType = {
     images: number
     variants: number
+    wishlistItems: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | ProductCountOutputTypeCountImagesArgs
     variants?: boolean | ProductCountOutputTypeCountVariantsArgs
+    wishlistItems?: boolean | ProductCountOutputTypeCountWishlistItemsArgs
   }
 
   // Custom InputTypes
@@ -2045,6 +2138,13 @@ export namespace Prisma {
    */
   export type ProductCountOutputTypeCountVariantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductVariantWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountWishlistItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WishlistItemWhereInput
   }
 
 
@@ -2116,6 +2216,37 @@ export namespace Prisma {
    */
   export type CartCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CartItemWhereInput
+  }
+
+
+  /**
+   * Count Type WishlistCountOutputType
+   */
+
+  export type WishlistCountOutputType = {
+    items: number
+  }
+
+  export type WishlistCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | WishlistCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WishlistCountOutputType without action
+   */
+  export type WishlistCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistCountOutputType
+     */
+    select?: WishlistCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WishlistCountOutputType without action
+   */
+  export type WishlistCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WishlistItemWhereInput
   }
 
 
@@ -5809,6 +5940,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
+    wishlistItems?: boolean | Product$wishlistItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -5855,6 +5987,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
+    wishlistItems?: boolean | Product$wishlistItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5870,6 +6003,7 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs>
       images: Prisma.$ProductImagePayload<ExtArgs>[]
       variants: Prisma.$ProductVariantPayload<ExtArgs>[]
+      wishlistItems: Prisma.$WishlistItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6278,6 +6412,7 @@ export namespace Prisma {
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     images<T extends Product$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Product$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     variants<T extends Product$variantsArgs<ExtArgs> = {}>(args?: Subset<T, Product$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    wishlistItems<T extends Product$wishlistItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6762,6 +6897,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProductVariantScalarFieldEnum | ProductVariantScalarFieldEnum[]
+  }
+
+  /**
+   * Product.wishlistItems
+   */
+  export type Product$wishlistItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    where?: WishlistItemWhereInput
+    orderBy?: WishlistItemOrderByWithRelationInput | WishlistItemOrderByWithRelationInput[]
+    cursor?: WishlistItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WishlistItemScalarFieldEnum | WishlistItemScalarFieldEnum[]
   }
 
   /**
@@ -11378,6 +11537,8 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    items?: boolean | Wishlist$itemsArgs<ExtArgs>
+    _count?: boolean | WishlistCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wishlist"]>
 
   export type WishlistSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11403,6 +11564,8 @@ export namespace Prisma {
   export type WishlistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt", ExtArgs["result"]["wishlist"]>
   export type WishlistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    items?: boolean | Wishlist$itemsArgs<ExtArgs>
+    _count?: boolean | WishlistCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WishlistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -11415,6 +11578,7 @@ export namespace Prisma {
     name: "Wishlist"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      items: Prisma.$WishlistItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11815,6 +11979,7 @@ export namespace Prisma {
   export interface Prisma__WishlistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    items<T extends Wishlist$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Wishlist$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12248,6 +12413,30 @@ export namespace Prisma {
   }
 
   /**
+   * Wishlist.items
+   */
+  export type Wishlist$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    where?: WishlistItemWhereInput
+    orderBy?: WishlistItemOrderByWithRelationInput | WishlistItemOrderByWithRelationInput[]
+    cursor?: WishlistItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WishlistItemScalarFieldEnum | WishlistItemScalarFieldEnum[]
+  }
+
+  /**
    * Wishlist without action
    */
   export type WishlistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12267,6 +12456,1064 @@ export namespace Prisma {
 
 
   /**
+   * Model WishlistItem
+   */
+
+  export type AggregateWishlistItem = {
+    _count: WishlistItemCountAggregateOutputType | null
+    _min: WishlistItemMinAggregateOutputType | null
+    _max: WishlistItemMaxAggregateOutputType | null
+  }
+
+  export type WishlistItemMinAggregateOutputType = {
+    id: string | null
+    wishlistId: string | null
+    productId: string | null
+    createdAt: Date | null
+  }
+
+  export type WishlistItemMaxAggregateOutputType = {
+    id: string | null
+    wishlistId: string | null
+    productId: string | null
+    createdAt: Date | null
+  }
+
+  export type WishlistItemCountAggregateOutputType = {
+    id: number
+    wishlistId: number
+    productId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WishlistItemMinAggregateInputType = {
+    id?: true
+    wishlistId?: true
+    productId?: true
+    createdAt?: true
+  }
+
+  export type WishlistItemMaxAggregateInputType = {
+    id?: true
+    wishlistId?: true
+    productId?: true
+    createdAt?: true
+  }
+
+  export type WishlistItemCountAggregateInputType = {
+    id?: true
+    wishlistId?: true
+    productId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WishlistItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WishlistItem to aggregate.
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WishlistItems to fetch.
+     */
+    orderBy?: WishlistItemOrderByWithRelationInput | WishlistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WishlistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WishlistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WishlistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WishlistItems
+    **/
+    _count?: true | WishlistItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WishlistItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WishlistItemMaxAggregateInputType
+  }
+
+  export type GetWishlistItemAggregateType<T extends WishlistItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateWishlistItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWishlistItem[P]>
+      : GetScalarType<T[P], AggregateWishlistItem[P]>
+  }
+
+
+
+
+  export type WishlistItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WishlistItemWhereInput
+    orderBy?: WishlistItemOrderByWithAggregationInput | WishlistItemOrderByWithAggregationInput[]
+    by: WishlistItemScalarFieldEnum[] | WishlistItemScalarFieldEnum
+    having?: WishlistItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WishlistItemCountAggregateInputType | true
+    _min?: WishlistItemMinAggregateInputType
+    _max?: WishlistItemMaxAggregateInputType
+  }
+
+  export type WishlistItemGroupByOutputType = {
+    id: string
+    wishlistId: string
+    productId: string
+    createdAt: Date
+    _count: WishlistItemCountAggregateOutputType | null
+    _min: WishlistItemMinAggregateOutputType | null
+    _max: WishlistItemMaxAggregateOutputType | null
+  }
+
+  type GetWishlistItemGroupByPayload<T extends WishlistItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WishlistItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WishlistItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WishlistItemGroupByOutputType[P]>
+            : GetScalarType<T[P], WishlistItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WishlistItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    wishlistId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+    wishlist?: boolean | WishlistDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wishlistItem"]>
+
+  export type WishlistItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    wishlistId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+    wishlist?: boolean | WishlistDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wishlistItem"]>
+
+  export type WishlistItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    wishlistId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+    wishlist?: boolean | WishlistDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wishlistItem"]>
+
+  export type WishlistItemSelectScalar = {
+    id?: boolean
+    wishlistId?: boolean
+    productId?: boolean
+    createdAt?: boolean
+  }
+
+  export type WishlistItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "wishlistId" | "productId" | "createdAt", ExtArgs["result"]["wishlistItem"]>
+  export type WishlistItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    wishlist?: boolean | WishlistDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type WishlistItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    wishlist?: boolean | WishlistDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type WishlistItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    wishlist?: boolean | WishlistDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $WishlistItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WishlistItem"
+    objects: {
+      wishlist: Prisma.$WishlistPayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      wishlistId: string
+      productId: string
+      createdAt: Date
+    }, ExtArgs["result"]["wishlistItem"]>
+    composites: {}
+  }
+
+  type WishlistItemGetPayload<S extends boolean | null | undefined | WishlistItemDefaultArgs> = $Result.GetResult<Prisma.$WishlistItemPayload, S>
+
+  type WishlistItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WishlistItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WishlistItemCountAggregateInputType | true
+    }
+
+  export interface WishlistItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WishlistItem'], meta: { name: 'WishlistItem' } }
+    /**
+     * Find zero or one WishlistItem that matches the filter.
+     * @param {WishlistItemFindUniqueArgs} args - Arguments to find a WishlistItem
+     * @example
+     * // Get one WishlistItem
+     * const wishlistItem = await prisma.wishlistItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WishlistItemFindUniqueArgs>(args: SelectSubset<T, WishlistItemFindUniqueArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WishlistItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WishlistItemFindUniqueOrThrowArgs} args - Arguments to find a WishlistItem
+     * @example
+     * // Get one WishlistItem
+     * const wishlistItem = await prisma.wishlistItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WishlistItemFindUniqueOrThrowArgs>(args: SelectSubset<T, WishlistItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WishlistItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemFindFirstArgs} args - Arguments to find a WishlistItem
+     * @example
+     * // Get one WishlistItem
+     * const wishlistItem = await prisma.wishlistItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WishlistItemFindFirstArgs>(args?: SelectSubset<T, WishlistItemFindFirstArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WishlistItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemFindFirstOrThrowArgs} args - Arguments to find a WishlistItem
+     * @example
+     * // Get one WishlistItem
+     * const wishlistItem = await prisma.wishlistItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WishlistItemFindFirstOrThrowArgs>(args?: SelectSubset<T, WishlistItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WishlistItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WishlistItems
+     * const wishlistItems = await prisma.wishlistItem.findMany()
+     * 
+     * // Get first 10 WishlistItems
+     * const wishlistItems = await prisma.wishlistItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const wishlistItemWithIdOnly = await prisma.wishlistItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WishlistItemFindManyArgs>(args?: SelectSubset<T, WishlistItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WishlistItem.
+     * @param {WishlistItemCreateArgs} args - Arguments to create a WishlistItem.
+     * @example
+     * // Create one WishlistItem
+     * const WishlistItem = await prisma.wishlistItem.create({
+     *   data: {
+     *     // ... data to create a WishlistItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends WishlistItemCreateArgs>(args: SelectSubset<T, WishlistItemCreateArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WishlistItems.
+     * @param {WishlistItemCreateManyArgs} args - Arguments to create many WishlistItems.
+     * @example
+     * // Create many WishlistItems
+     * const wishlistItem = await prisma.wishlistItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WishlistItemCreateManyArgs>(args?: SelectSubset<T, WishlistItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WishlistItems and returns the data saved in the database.
+     * @param {WishlistItemCreateManyAndReturnArgs} args - Arguments to create many WishlistItems.
+     * @example
+     * // Create many WishlistItems
+     * const wishlistItem = await prisma.wishlistItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WishlistItems and only return the `id`
+     * const wishlistItemWithIdOnly = await prisma.wishlistItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WishlistItemCreateManyAndReturnArgs>(args?: SelectSubset<T, WishlistItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WishlistItem.
+     * @param {WishlistItemDeleteArgs} args - Arguments to delete one WishlistItem.
+     * @example
+     * // Delete one WishlistItem
+     * const WishlistItem = await prisma.wishlistItem.delete({
+     *   where: {
+     *     // ... filter to delete one WishlistItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WishlistItemDeleteArgs>(args: SelectSubset<T, WishlistItemDeleteArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WishlistItem.
+     * @param {WishlistItemUpdateArgs} args - Arguments to update one WishlistItem.
+     * @example
+     * // Update one WishlistItem
+     * const wishlistItem = await prisma.wishlistItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WishlistItemUpdateArgs>(args: SelectSubset<T, WishlistItemUpdateArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WishlistItems.
+     * @param {WishlistItemDeleteManyArgs} args - Arguments to filter WishlistItems to delete.
+     * @example
+     * // Delete a few WishlistItems
+     * const { count } = await prisma.wishlistItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WishlistItemDeleteManyArgs>(args?: SelectSubset<T, WishlistItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WishlistItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WishlistItems
+     * const wishlistItem = await prisma.wishlistItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WishlistItemUpdateManyArgs>(args: SelectSubset<T, WishlistItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WishlistItems and returns the data updated in the database.
+     * @param {WishlistItemUpdateManyAndReturnArgs} args - Arguments to update many WishlistItems.
+     * @example
+     * // Update many WishlistItems
+     * const wishlistItem = await prisma.wishlistItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WishlistItems and only return the `id`
+     * const wishlistItemWithIdOnly = await prisma.wishlistItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WishlistItemUpdateManyAndReturnArgs>(args: SelectSubset<T, WishlistItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WishlistItem.
+     * @param {WishlistItemUpsertArgs} args - Arguments to update or create a WishlistItem.
+     * @example
+     * // Update or create a WishlistItem
+     * const wishlistItem = await prisma.wishlistItem.upsert({
+     *   create: {
+     *     // ... data to create a WishlistItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WishlistItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WishlistItemUpsertArgs>(args: SelectSubset<T, WishlistItemUpsertArgs<ExtArgs>>): Prisma__WishlistItemClient<$Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WishlistItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemCountArgs} args - Arguments to filter WishlistItems to count.
+     * @example
+     * // Count the number of WishlistItems
+     * const count = await prisma.wishlistItem.count({
+     *   where: {
+     *     // ... the filter for the WishlistItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends WishlistItemCountArgs>(
+      args?: Subset<T, WishlistItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WishlistItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WishlistItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WishlistItemAggregateArgs>(args: Subset<T, WishlistItemAggregateArgs>): Prisma.PrismaPromise<GetWishlistItemAggregateType<T>>
+
+    /**
+     * Group by WishlistItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WishlistItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WishlistItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WishlistItemGroupByArgs['orderBy'] }
+        : { orderBy?: WishlistItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WishlistItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWishlistItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WishlistItem model
+   */
+  readonly fields: WishlistItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WishlistItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WishlistItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    wishlist<T extends WishlistDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WishlistDefaultArgs<ExtArgs>>): Prisma__WishlistClient<$Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WishlistItem model
+   */
+  interface WishlistItemFieldRefs {
+    readonly id: FieldRef<"WishlistItem", 'String'>
+    readonly wishlistId: FieldRef<"WishlistItem", 'String'>
+    readonly productId: FieldRef<"WishlistItem", 'String'>
+    readonly createdAt: FieldRef<"WishlistItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WishlistItem findUnique
+   */
+  export type WishlistItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WishlistItem to fetch.
+     */
+    where: WishlistItemWhereUniqueInput
+  }
+
+  /**
+   * WishlistItem findUniqueOrThrow
+   */
+  export type WishlistItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WishlistItem to fetch.
+     */
+    where: WishlistItemWhereUniqueInput
+  }
+
+  /**
+   * WishlistItem findFirst
+   */
+  export type WishlistItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WishlistItem to fetch.
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WishlistItems to fetch.
+     */
+    orderBy?: WishlistItemOrderByWithRelationInput | WishlistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WishlistItems.
+     */
+    cursor?: WishlistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WishlistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WishlistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WishlistItems.
+     */
+    distinct?: WishlistItemScalarFieldEnum | WishlistItemScalarFieldEnum[]
+  }
+
+  /**
+   * WishlistItem findFirstOrThrow
+   */
+  export type WishlistItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WishlistItem to fetch.
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WishlistItems to fetch.
+     */
+    orderBy?: WishlistItemOrderByWithRelationInput | WishlistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WishlistItems.
+     */
+    cursor?: WishlistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WishlistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WishlistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WishlistItems.
+     */
+    distinct?: WishlistItemScalarFieldEnum | WishlistItemScalarFieldEnum[]
+  }
+
+  /**
+   * WishlistItem findMany
+   */
+  export type WishlistItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WishlistItems to fetch.
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WishlistItems to fetch.
+     */
+    orderBy?: WishlistItemOrderByWithRelationInput | WishlistItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WishlistItems.
+     */
+    cursor?: WishlistItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WishlistItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WishlistItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WishlistItems.
+     */
+    distinct?: WishlistItemScalarFieldEnum | WishlistItemScalarFieldEnum[]
+  }
+
+  /**
+   * WishlistItem create
+   */
+  export type WishlistItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WishlistItem.
+     */
+    data: XOR<WishlistItemCreateInput, WishlistItemUncheckedCreateInput>
+  }
+
+  /**
+   * WishlistItem createMany
+   */
+  export type WishlistItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WishlistItems.
+     */
+    data: WishlistItemCreateManyInput | WishlistItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WishlistItem createManyAndReturn
+   */
+  export type WishlistItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many WishlistItems.
+     */
+    data: WishlistItemCreateManyInput | WishlistItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WishlistItem update
+   */
+  export type WishlistItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WishlistItem.
+     */
+    data: XOR<WishlistItemUpdateInput, WishlistItemUncheckedUpdateInput>
+    /**
+     * Choose, which WishlistItem to update.
+     */
+    where: WishlistItemWhereUniqueInput
+  }
+
+  /**
+   * WishlistItem updateMany
+   */
+  export type WishlistItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WishlistItems.
+     */
+    data: XOR<WishlistItemUpdateManyMutationInput, WishlistItemUncheckedUpdateManyInput>
+    /**
+     * Filter which WishlistItems to update
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * Limit how many WishlistItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WishlistItem updateManyAndReturn
+   */
+  export type WishlistItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * The data used to update WishlistItems.
+     */
+    data: XOR<WishlistItemUpdateManyMutationInput, WishlistItemUncheckedUpdateManyInput>
+    /**
+     * Filter which WishlistItems to update
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * Limit how many WishlistItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WishlistItem upsert
+   */
+  export type WishlistItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WishlistItem to update in case it exists.
+     */
+    where: WishlistItemWhereUniqueInput
+    /**
+     * In case the WishlistItem found by the `where` argument doesn't exist, create a new WishlistItem with this data.
+     */
+    create: XOR<WishlistItemCreateInput, WishlistItemUncheckedCreateInput>
+    /**
+     * In case the WishlistItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WishlistItemUpdateInput, WishlistItemUncheckedUpdateInput>
+  }
+
+  /**
+   * WishlistItem delete
+   */
+  export type WishlistItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+    /**
+     * Filter which WishlistItem to delete.
+     */
+    where: WishlistItemWhereUniqueInput
+  }
+
+  /**
+   * WishlistItem deleteMany
+   */
+  export type WishlistItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WishlistItems to delete
+     */
+    where?: WishlistItemWhereInput
+    /**
+     * Limit how many WishlistItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WishlistItem without action
+   */
+  export type WishlistItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WishlistItem
+     */
+    select?: WishlistItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WishlistItem
+     */
+    omit?: WishlistItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WishlistItemInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Order
    */
 
@@ -12279,19 +13526,35 @@ export namespace Prisma {
   }
 
   export type OrderAvgAggregateOutputType = {
+    subtotalAmount: Decimal | null
+    discountAmount: Decimal | null
     totalAmount: Decimal | null
   }
 
   export type OrderSumAggregateOutputType = {
+    subtotalAmount: Decimal | null
+    discountAmount: Decimal | null
     totalAmount: Decimal | null
   }
 
   export type OrderMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    subtotalAmount: Decimal | null
+    discountAmount: Decimal | null
+    shippingFullName: string | null
+    shippingPhone: string | null
+    shippingAddressLine1: string | null
+    shippingAddressLine2: string | null
+    shippingCity: string | null
+    shippingState: string | null
+    shippingCountry: string | null
+    shippingPostalCode: string | null
     totalAmount: Decimal | null
     orderStatus: $Enums.OrderStatus | null
     paymentStatus: $Enums.PaymentStatus | null
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12299,9 +13562,21 @@ export namespace Prisma {
   export type OrderMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    subtotalAmount: Decimal | null
+    discountAmount: Decimal | null
+    shippingFullName: string | null
+    shippingPhone: string | null
+    shippingAddressLine1: string | null
+    shippingAddressLine2: string | null
+    shippingCity: string | null
+    shippingState: string | null
+    shippingCountry: string | null
+    shippingPostalCode: string | null
     totalAmount: Decimal | null
     orderStatus: $Enums.OrderStatus | null
     paymentStatus: $Enums.PaymentStatus | null
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12309,9 +13584,21 @@ export namespace Prisma {
   export type OrderCountAggregateOutputType = {
     id: number
     userId: number
+    subtotalAmount: number
+    discountAmount: number
+    shippingFullName: number
+    shippingPhone: number
+    shippingAddressLine1: number
+    shippingAddressLine2: number
+    shippingCity: number
+    shippingState: number
+    shippingCountry: number
+    shippingPostalCode: number
     totalAmount: number
     orderStatus: number
     paymentStatus: number
+    razorpayOrderId: number
+    razorpayPaymentId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -12319,19 +13606,35 @@ export namespace Prisma {
 
 
   export type OrderAvgAggregateInputType = {
+    subtotalAmount?: true
+    discountAmount?: true
     totalAmount?: true
   }
 
   export type OrderSumAggregateInputType = {
+    subtotalAmount?: true
+    discountAmount?: true
     totalAmount?: true
   }
 
   export type OrderMinAggregateInputType = {
     id?: true
     userId?: true
+    subtotalAmount?: true
+    discountAmount?: true
+    shippingFullName?: true
+    shippingPhone?: true
+    shippingAddressLine1?: true
+    shippingAddressLine2?: true
+    shippingCity?: true
+    shippingState?: true
+    shippingCountry?: true
+    shippingPostalCode?: true
     totalAmount?: true
     orderStatus?: true
     paymentStatus?: true
+    razorpayOrderId?: true
+    razorpayPaymentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12339,9 +13642,21 @@ export namespace Prisma {
   export type OrderMaxAggregateInputType = {
     id?: true
     userId?: true
+    subtotalAmount?: true
+    discountAmount?: true
+    shippingFullName?: true
+    shippingPhone?: true
+    shippingAddressLine1?: true
+    shippingAddressLine2?: true
+    shippingCity?: true
+    shippingState?: true
+    shippingCountry?: true
+    shippingPostalCode?: true
     totalAmount?: true
     orderStatus?: true
     paymentStatus?: true
+    razorpayOrderId?: true
+    razorpayPaymentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12349,9 +13664,21 @@ export namespace Prisma {
   export type OrderCountAggregateInputType = {
     id?: true
     userId?: true
+    subtotalAmount?: true
+    discountAmount?: true
+    shippingFullName?: true
+    shippingPhone?: true
+    shippingAddressLine1?: true
+    shippingAddressLine2?: true
+    shippingCity?: true
+    shippingState?: true
+    shippingCountry?: true
+    shippingPostalCode?: true
     totalAmount?: true
     orderStatus?: true
     paymentStatus?: true
+    razorpayOrderId?: true
+    razorpayPaymentId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -12446,9 +13773,21 @@ export namespace Prisma {
   export type OrderGroupByOutputType = {
     id: string
     userId: string
+    subtotalAmount: Decimal
+    discountAmount: Decimal
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal
     orderStatus: $Enums.OrderStatus
     paymentStatus: $Enums.PaymentStatus
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
     createdAt: Date
     updatedAt: Date
     _count: OrderCountAggregateOutputType | null
@@ -12475,9 +13814,21 @@ export namespace Prisma {
   export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    subtotalAmount?: boolean
+    discountAmount?: boolean
+    shippingFullName?: boolean
+    shippingPhone?: boolean
+    shippingAddressLine1?: boolean
+    shippingAddressLine2?: boolean
+    shippingCity?: boolean
+    shippingState?: boolean
+    shippingCountry?: boolean
+    shippingPostalCode?: boolean
     totalAmount?: boolean
     orderStatus?: boolean
     paymentStatus?: boolean
+    razorpayOrderId?: boolean
+    razorpayPaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -12488,9 +13839,21 @@ export namespace Prisma {
   export type OrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    subtotalAmount?: boolean
+    discountAmount?: boolean
+    shippingFullName?: boolean
+    shippingPhone?: boolean
+    shippingAddressLine1?: boolean
+    shippingAddressLine2?: boolean
+    shippingCity?: boolean
+    shippingState?: boolean
+    shippingCountry?: boolean
+    shippingPostalCode?: boolean
     totalAmount?: boolean
     orderStatus?: boolean
     paymentStatus?: boolean
+    razorpayOrderId?: boolean
+    razorpayPaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -12499,9 +13862,21 @@ export namespace Prisma {
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    subtotalAmount?: boolean
+    discountAmount?: boolean
+    shippingFullName?: boolean
+    shippingPhone?: boolean
+    shippingAddressLine1?: boolean
+    shippingAddressLine2?: boolean
+    shippingCity?: boolean
+    shippingState?: boolean
+    shippingCountry?: boolean
+    shippingPostalCode?: boolean
     totalAmount?: boolean
     orderStatus?: boolean
     paymentStatus?: boolean
+    razorpayOrderId?: boolean
+    razorpayPaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -12510,14 +13885,26 @@ export namespace Prisma {
   export type OrderSelectScalar = {
     id?: boolean
     userId?: boolean
+    subtotalAmount?: boolean
+    discountAmount?: boolean
+    shippingFullName?: boolean
+    shippingPhone?: boolean
+    shippingAddressLine1?: boolean
+    shippingAddressLine2?: boolean
+    shippingCity?: boolean
+    shippingState?: boolean
+    shippingCountry?: boolean
+    shippingPostalCode?: boolean
     totalAmount?: boolean
     orderStatus?: boolean
     paymentStatus?: boolean
+    razorpayOrderId?: boolean
+    razorpayPaymentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalAmount" | "orderStatus" | "paymentStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "subtotalAmount" | "discountAmount" | "shippingFullName" | "shippingPhone" | "shippingAddressLine1" | "shippingAddressLine2" | "shippingCity" | "shippingState" | "shippingCountry" | "shippingPostalCode" | "totalAmount" | "orderStatus" | "paymentStatus" | "razorpayOrderId" | "razorpayPaymentId" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
@@ -12539,9 +13926,21 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      subtotalAmount: Prisma.Decimal
+      discountAmount: Prisma.Decimal
+      shippingFullName: string
+      shippingPhone: string
+      shippingAddressLine1: string
+      shippingAddressLine2: string | null
+      shippingCity: string
+      shippingState: string
+      shippingCountry: string
+      shippingPostalCode: string
       totalAmount: Prisma.Decimal
       orderStatus: $Enums.OrderStatus
       paymentStatus: $Enums.PaymentStatus
+      razorpayOrderId: string | null
+      razorpayPaymentId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["order"]>
@@ -12971,9 +14370,21 @@ export namespace Prisma {
   interface OrderFieldRefs {
     readonly id: FieldRef<"Order", 'String'>
     readonly userId: FieldRef<"Order", 'String'>
+    readonly subtotalAmount: FieldRef<"Order", 'Decimal'>
+    readonly discountAmount: FieldRef<"Order", 'Decimal'>
+    readonly shippingFullName: FieldRef<"Order", 'String'>
+    readonly shippingPhone: FieldRef<"Order", 'String'>
+    readonly shippingAddressLine1: FieldRef<"Order", 'String'>
+    readonly shippingAddressLine2: FieldRef<"Order", 'String'>
+    readonly shippingCity: FieldRef<"Order", 'String'>
+    readonly shippingState: FieldRef<"Order", 'String'>
+    readonly shippingCountry: FieldRef<"Order", 'String'>
+    readonly shippingPostalCode: FieldRef<"Order", 'String'>
     readonly totalAmount: FieldRef<"Order", 'Decimal'>
     readonly orderStatus: FieldRef<"Order", 'OrderStatus'>
     readonly paymentStatus: FieldRef<"Order", 'PaymentStatus'>
+    readonly razorpayOrderId: FieldRef<"Order", 'String'>
+    readonly razorpayPaymentId: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
   }
@@ -13445,6 +14856,10 @@ export namespace Prisma {
     id: string | null
     orderId: string | null
     variantId: string | null
+    productName: string | null
+    size: string | null
+    color: string | null
+    sku: string | null
     quantity: number | null
     price: Decimal | null
   }
@@ -13453,6 +14868,10 @@ export namespace Prisma {
     id: string | null
     orderId: string | null
     variantId: string | null
+    productName: string | null
+    size: string | null
+    color: string | null
+    sku: string | null
     quantity: number | null
     price: Decimal | null
   }
@@ -13461,6 +14880,10 @@ export namespace Prisma {
     id: number
     orderId: number
     variantId: number
+    productName: number
+    size: number
+    color: number
+    sku: number
     quantity: number
     price: number
     _all: number
@@ -13481,6 +14904,10 @@ export namespace Prisma {
     id?: true
     orderId?: true
     variantId?: true
+    productName?: true
+    size?: true
+    color?: true
+    sku?: true
     quantity?: true
     price?: true
   }
@@ -13489,6 +14916,10 @@ export namespace Prisma {
     id?: true
     orderId?: true
     variantId?: true
+    productName?: true
+    size?: true
+    color?: true
+    sku?: true
     quantity?: true
     price?: true
   }
@@ -13497,6 +14928,10 @@ export namespace Prisma {
     id?: true
     orderId?: true
     variantId?: true
+    productName?: true
+    size?: true
+    color?: true
+    sku?: true
     quantity?: true
     price?: true
     _all?: true
@@ -13592,6 +15027,10 @@ export namespace Prisma {
     id: string
     orderId: string
     variantId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal
     _count: OrderItemCountAggregateOutputType | null
@@ -13619,6 +15058,10 @@ export namespace Prisma {
     id?: boolean
     orderId?: boolean
     variantId?: boolean
+    productName?: boolean
+    size?: boolean
+    color?: boolean
+    sku?: boolean
     quantity?: boolean
     price?: boolean
     order?: boolean | OrderDefaultArgs<ExtArgs>
@@ -13629,6 +15072,10 @@ export namespace Prisma {
     id?: boolean
     orderId?: boolean
     variantId?: boolean
+    productName?: boolean
+    size?: boolean
+    color?: boolean
+    sku?: boolean
     quantity?: boolean
     price?: boolean
     order?: boolean | OrderDefaultArgs<ExtArgs>
@@ -13639,6 +15086,10 @@ export namespace Prisma {
     id?: boolean
     orderId?: boolean
     variantId?: boolean
+    productName?: boolean
+    size?: boolean
+    color?: boolean
+    sku?: boolean
     quantity?: boolean
     price?: boolean
     order?: boolean | OrderDefaultArgs<ExtArgs>
@@ -13649,11 +15100,15 @@ export namespace Prisma {
     id?: boolean
     orderId?: boolean
     variantId?: boolean
+    productName?: boolean
+    size?: boolean
+    color?: boolean
+    sku?: boolean
     quantity?: boolean
     price?: boolean
   }
 
-  export type OrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "variantId" | "quantity" | "price", ExtArgs["result"]["orderItem"]>
+  export type OrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "variantId" | "productName" | "size" | "color" | "sku" | "quantity" | "price", ExtArgs["result"]["orderItem"]>
   export type OrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | OrderDefaultArgs<ExtArgs>
     variant?: boolean | ProductVariantDefaultArgs<ExtArgs>
@@ -13677,6 +15132,10 @@ export namespace Prisma {
       id: string
       orderId: string
       variantId: string
+      productName: string
+      size: string
+      color: string
+      sku: string
       quantity: number
       price: Prisma.Decimal
     }, ExtArgs["result"]["orderItem"]>
@@ -14107,6 +15566,10 @@ export namespace Prisma {
     readonly id: FieldRef<"OrderItem", 'String'>
     readonly orderId: FieldRef<"OrderItem", 'String'>
     readonly variantId: FieldRef<"OrderItem", 'String'>
+    readonly productName: FieldRef<"OrderItem", 'String'>
+    readonly size: FieldRef<"OrderItem", 'String'>
+    readonly color: FieldRef<"OrderItem", 'String'>
+    readonly sku: FieldRef<"OrderItem", 'String'>
     readonly quantity: FieldRef<"OrderItem", 'Int'>
     readonly price: FieldRef<"OrderItem", 'Decimal'>
   }
@@ -15726,12 +17189,34 @@ export namespace Prisma {
   export type WishlistScalarFieldEnum = (typeof WishlistScalarFieldEnum)[keyof typeof WishlistScalarFieldEnum]
 
 
+  export const WishlistItemScalarFieldEnum: {
+    id: 'id',
+    wishlistId: 'wishlistId',
+    productId: 'productId',
+    createdAt: 'createdAt'
+  };
+
+  export type WishlistItemScalarFieldEnum = (typeof WishlistItemScalarFieldEnum)[keyof typeof WishlistItemScalarFieldEnum]
+
+
   export const OrderScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    subtotalAmount: 'subtotalAmount',
+    discountAmount: 'discountAmount',
+    shippingFullName: 'shippingFullName',
+    shippingPhone: 'shippingPhone',
+    shippingAddressLine1: 'shippingAddressLine1',
+    shippingAddressLine2: 'shippingAddressLine2',
+    shippingCity: 'shippingCity',
+    shippingState: 'shippingState',
+    shippingCountry: 'shippingCountry',
+    shippingPostalCode: 'shippingPostalCode',
     totalAmount: 'totalAmount',
     orderStatus: 'orderStatus',
     paymentStatus: 'paymentStatus',
+    razorpayOrderId: 'razorpayOrderId',
+    razorpayPaymentId: 'razorpayPaymentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -15743,6 +17228,10 @@ export namespace Prisma {
     id: 'id',
     orderId: 'orderId',
     variantId: 'variantId',
+    productName: 'productName',
+    size: 'size',
+    color: 'color',
+    sku: 'sku',
     quantity: 'quantity',
     price: 'price'
   };
@@ -16169,6 +17658,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ProductImageListRelationFilter
     variants?: ProductVariantListRelationFilter
+    wishlistItems?: WishlistItemListRelationFilter
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -16184,6 +17674,7 @@ export namespace Prisma {
     category?: CategoryOrderByWithRelationInput
     images?: ProductImageOrderByRelationAggregateInput
     variants?: ProductVariantOrderByRelationAggregateInput
+    wishlistItems?: WishlistItemOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -16202,6 +17693,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ProductImageListRelationFilter
     variants?: ProductVariantListRelationFilter
+    wishlistItems?: WishlistItemListRelationFilter
   }, "id" | "slug">
 
   export type ProductOrderByWithAggregationInput = {
@@ -16489,6 +17981,7 @@ export namespace Prisma {
     userId?: StringFilter<"Wishlist"> | string
     createdAt?: DateTimeFilter<"Wishlist"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    items?: WishlistItemListRelationFilter
   }
 
   export type WishlistOrderByWithRelationInput = {
@@ -16496,6 +17989,7 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    items?: WishlistItemOrderByRelationAggregateInput
   }
 
   export type WishlistWhereUniqueInput = Prisma.AtLeast<{
@@ -16506,6 +18000,7 @@ export namespace Prisma {
     NOT?: WishlistWhereInput | WishlistWhereInput[]
     createdAt?: DateTimeFilter<"Wishlist"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    items?: WishlistItemListRelationFilter
   }, "id" | "userId">
 
   export type WishlistOrderByWithAggregationInput = {
@@ -16526,15 +18021,81 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Wishlist"> | Date | string
   }
 
+  export type WishlistItemWhereInput = {
+    AND?: WishlistItemWhereInput | WishlistItemWhereInput[]
+    OR?: WishlistItemWhereInput[]
+    NOT?: WishlistItemWhereInput | WishlistItemWhereInput[]
+    id?: StringFilter<"WishlistItem"> | string
+    wishlistId?: StringFilter<"WishlistItem"> | string
+    productId?: StringFilter<"WishlistItem"> | string
+    createdAt?: DateTimeFilter<"WishlistItem"> | Date | string
+    wishlist?: XOR<WishlistScalarRelationFilter, WishlistWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type WishlistItemOrderByWithRelationInput = {
+    id?: SortOrder
+    wishlistId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+    wishlist?: WishlistOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type WishlistItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    wishlistId_productId?: WishlistItemWishlistIdProductIdCompoundUniqueInput
+    AND?: WishlistItemWhereInput | WishlistItemWhereInput[]
+    OR?: WishlistItemWhereInput[]
+    NOT?: WishlistItemWhereInput | WishlistItemWhereInput[]
+    wishlistId?: StringFilter<"WishlistItem"> | string
+    productId?: StringFilter<"WishlistItem"> | string
+    createdAt?: DateTimeFilter<"WishlistItem"> | Date | string
+    wishlist?: XOR<WishlistScalarRelationFilter, WishlistWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "id" | "wishlistId_productId">
+
+  export type WishlistItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    wishlistId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+    _count?: WishlistItemCountOrderByAggregateInput
+    _max?: WishlistItemMaxOrderByAggregateInput
+    _min?: WishlistItemMinOrderByAggregateInput
+  }
+
+  export type WishlistItemScalarWhereWithAggregatesInput = {
+    AND?: WishlistItemScalarWhereWithAggregatesInput | WishlistItemScalarWhereWithAggregatesInput[]
+    OR?: WishlistItemScalarWhereWithAggregatesInput[]
+    NOT?: WishlistItemScalarWhereWithAggregatesInput | WishlistItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WishlistItem"> | string
+    wishlistId?: StringWithAggregatesFilter<"WishlistItem"> | string
+    productId?: StringWithAggregatesFilter<"WishlistItem"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"WishlistItem"> | Date | string
+  }
+
   export type OrderWhereInput = {
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     id?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
+    subtotalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFilter<"Order"> | string
+    shippingPhone?: StringFilter<"Order"> | string
+    shippingAddressLine1?: StringFilter<"Order"> | string
+    shippingAddressLine2?: StringNullableFilter<"Order"> | string | null
+    shippingCity?: StringFilter<"Order"> | string
+    shippingState?: StringFilter<"Order"> | string
+    shippingCountry?: StringFilter<"Order"> | string
+    shippingPostalCode?: StringFilter<"Order"> | string
     totalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+    razorpayOrderId?: StringNullableFilter<"Order"> | string | null
+    razorpayPaymentId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -16544,9 +18105,21 @@ export namespace Prisma {
   export type OrderOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
+    shippingFullName?: SortOrder
+    shippingPhone?: SortOrder
+    shippingAddressLine1?: SortOrder
+    shippingAddressLine2?: SortOrderInput | SortOrder
+    shippingCity?: SortOrder
+    shippingState?: SortOrder
+    shippingCountry?: SortOrder
+    shippingPostalCode?: SortOrder
     totalAmount?: SortOrder
     orderStatus?: SortOrder
     paymentStatus?: SortOrder
+    razorpayOrderId?: SortOrderInput | SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -16555,10 +18128,22 @@ export namespace Prisma {
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    razorpayOrderId?: string
+    razorpayPaymentId?: string
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     userId?: StringFilter<"Order"> | string
+    subtotalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFilter<"Order"> | string
+    shippingPhone?: StringFilter<"Order"> | string
+    shippingAddressLine1?: StringFilter<"Order"> | string
+    shippingAddressLine2?: StringNullableFilter<"Order"> | string | null
+    shippingCity?: StringFilter<"Order"> | string
+    shippingState?: StringFilter<"Order"> | string
+    shippingCountry?: StringFilter<"Order"> | string
+    shippingPostalCode?: StringFilter<"Order"> | string
     totalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
@@ -16566,14 +18151,26 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: OrderItemListRelationFilter
-  }, "id">
+  }, "id" | "razorpayOrderId" | "razorpayPaymentId">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
+    shippingFullName?: SortOrder
+    shippingPhone?: SortOrder
+    shippingAddressLine1?: SortOrder
+    shippingAddressLine2?: SortOrderInput | SortOrder
+    shippingCity?: SortOrder
+    shippingState?: SortOrder
+    shippingCountry?: SortOrder
+    shippingPostalCode?: SortOrder
     totalAmount?: SortOrder
     orderStatus?: SortOrder
     paymentStatus?: SortOrder
+    razorpayOrderId?: SortOrderInput | SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: OrderCountOrderByAggregateInput
@@ -16589,9 +18186,21 @@ export namespace Prisma {
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Order"> | string
     userId?: StringWithAggregatesFilter<"Order"> | string
+    subtotalAmount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringWithAggregatesFilter<"Order"> | string
+    shippingPhone?: StringWithAggregatesFilter<"Order"> | string
+    shippingAddressLine1?: StringWithAggregatesFilter<"Order"> | string
+    shippingAddressLine2?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    shippingCity?: StringWithAggregatesFilter<"Order"> | string
+    shippingState?: StringWithAggregatesFilter<"Order"> | string
+    shippingCountry?: StringWithAggregatesFilter<"Order"> | string
+    shippingPostalCode?: StringWithAggregatesFilter<"Order"> | string
     totalAmount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusWithAggregatesFilter<"Order"> | $Enums.PaymentStatus
+    razorpayOrderId?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    razorpayPaymentId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
   }
@@ -16603,6 +18212,10 @@ export namespace Prisma {
     id?: StringFilter<"OrderItem"> | string
     orderId?: StringFilter<"OrderItem"> | string
     variantId?: StringFilter<"OrderItem"> | string
+    productName?: StringFilter<"OrderItem"> | string
+    size?: StringFilter<"OrderItem"> | string
+    color?: StringFilter<"OrderItem"> | string
+    sku?: StringFilter<"OrderItem"> | string
     quantity?: IntFilter<"OrderItem"> | number
     price?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
@@ -16613,6 +18226,10 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     variantId?: SortOrder
+    productName?: SortOrder
+    size?: SortOrder
+    color?: SortOrder
+    sku?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
     order?: OrderOrderByWithRelationInput
@@ -16626,6 +18243,10 @@ export namespace Prisma {
     NOT?: OrderItemWhereInput | OrderItemWhereInput[]
     orderId?: StringFilter<"OrderItem"> | string
     variantId?: StringFilter<"OrderItem"> | string
+    productName?: StringFilter<"OrderItem"> | string
+    size?: StringFilter<"OrderItem"> | string
+    color?: StringFilter<"OrderItem"> | string
+    sku?: StringFilter<"OrderItem"> | string
     quantity?: IntFilter<"OrderItem"> | number
     price?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
@@ -16636,6 +18257,10 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     variantId?: SortOrder
+    productName?: SortOrder
+    size?: SortOrder
+    color?: SortOrder
+    sku?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
     _count?: OrderItemCountOrderByAggregateInput
@@ -16652,6 +18277,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"OrderItem"> | string
     orderId?: StringWithAggregatesFilter<"OrderItem"> | string
     variantId?: StringWithAggregatesFilter<"OrderItem"> | string
+    productName?: StringWithAggregatesFilter<"OrderItem"> | string
+    size?: StringWithAggregatesFilter<"OrderItem"> | string
+    color?: StringWithAggregatesFilter<"OrderItem"> | string
+    sku?: StringWithAggregatesFilter<"OrderItem"> | string
     quantity?: IntWithAggregatesFilter<"OrderItem"> | number
     price?: DecimalWithAggregatesFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
   }
@@ -17010,6 +18639,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -17024,6 +18654,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -17038,6 +18669,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -17052,6 +18684,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -17338,24 +18971,28 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutWishlistInput
+    items?: WishlistItemCreateNestedManyWithoutWishlistInput
   }
 
   export type WishlistUncheckedCreateInput = {
     id?: string
     userId: string
     createdAt?: Date | string
+    items?: WishlistItemUncheckedCreateNestedManyWithoutWishlistInput
   }
 
   export type WishlistUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutWishlistNestedInput
+    items?: WishlistItemUpdateManyWithoutWishlistNestedInput
   }
 
   export type WishlistUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WishlistItemUncheckedUpdateManyWithoutWishlistNestedInput
   }
 
   export type WishlistCreateManyInput = {
@@ -17375,11 +19012,70 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WishlistItemCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    wishlist: WishlistCreateNestedOneWithoutItemsInput
+    product: ProductCreateNestedOneWithoutWishlistItemsInput
+  }
+
+  export type WishlistItemUncheckedCreateInput = {
+    id?: string
+    wishlistId: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type WishlistItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    wishlist?: WishlistUpdateOneRequiredWithoutItemsNestedInput
+    product?: ProductUpdateOneRequiredWithoutWishlistItemsNestedInput
+  }
+
+  export type WishlistItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    wishlistId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WishlistItemCreateManyInput = {
+    id?: string
+    wishlistId: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type WishlistItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WishlistItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    wishlistId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrderCreateInput = {
     id?: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutOrdersInput
@@ -17389,9 +19085,21 @@ export namespace Prisma {
   export type OrderUncheckedCreateInput = {
     id?: string
     userId: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
@@ -17399,9 +19107,21 @@ export namespace Prisma {
 
   export type OrderUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
@@ -17411,9 +19131,21 @@ export namespace Prisma {
   export type OrderUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
@@ -17422,18 +19154,42 @@ export namespace Prisma {
   export type OrderCreateManyInput = {
     id?: string
     userId: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type OrderUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17441,15 +19197,31 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderItemCreateInput = {
     id?: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
     order: OrderCreateNestedOneWithoutItemsInput
@@ -17460,12 +19232,20 @@ export namespace Prisma {
     id?: string
     orderId: string
     variantId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
   }
 
   export type OrderItemUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     order?: OrderUpdateOneRequiredWithoutItemsNestedInput
@@ -17476,6 +19256,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     variantId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -17484,12 +19268,20 @@ export namespace Prisma {
     id?: string
     orderId: string
     variantId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
   }
 
   export type OrderItemUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -17498,6 +19290,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     variantId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -17871,11 +19667,21 @@ export namespace Prisma {
     none?: ProductVariantWhereInput
   }
 
+  export type WishlistItemListRelationFilter = {
+    every?: WishlistItemWhereInput
+    some?: WishlistItemWhereInput
+    none?: WishlistItemWhereInput
+  }
+
   export type ProductImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ProductVariantOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WishlistItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18147,6 +19953,37 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type WishlistScalarRelationFilter = {
+    is?: WishlistWhereInput
+    isNot?: WishlistWhereInput
+  }
+
+  export type WishlistItemWishlistIdProductIdCompoundUniqueInput = {
+    wishlistId: string
+    productId: string
+  }
+
+  export type WishlistItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    wishlistId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WishlistItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    wishlistId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WishlistItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    wishlistId?: SortOrder
+    productId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumOrderStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
     in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
@@ -18164,23 +20001,49 @@ export namespace Prisma {
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
+    shippingFullName?: SortOrder
+    shippingPhone?: SortOrder
+    shippingAddressLine1?: SortOrder
+    shippingAddressLine2?: SortOrder
+    shippingCity?: SortOrder
+    shippingState?: SortOrder
+    shippingCountry?: SortOrder
+    shippingPostalCode?: SortOrder
     totalAmount?: SortOrder
     orderStatus?: SortOrder
     paymentStatus?: SortOrder
+    razorpayOrderId?: SortOrder
+    razorpayPaymentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
     totalAmount?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
+    shippingFullName?: SortOrder
+    shippingPhone?: SortOrder
+    shippingAddressLine1?: SortOrder
+    shippingAddressLine2?: SortOrder
+    shippingCity?: SortOrder
+    shippingState?: SortOrder
+    shippingCountry?: SortOrder
+    shippingPostalCode?: SortOrder
     totalAmount?: SortOrder
     orderStatus?: SortOrder
     paymentStatus?: SortOrder
+    razorpayOrderId?: SortOrder
+    razorpayPaymentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18188,14 +20051,28 @@ export namespace Prisma {
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
+    shippingFullName?: SortOrder
+    shippingPhone?: SortOrder
+    shippingAddressLine1?: SortOrder
+    shippingAddressLine2?: SortOrder
+    shippingCity?: SortOrder
+    shippingState?: SortOrder
+    shippingCountry?: SortOrder
+    shippingPostalCode?: SortOrder
     totalAmount?: SortOrder
     orderStatus?: SortOrder
     paymentStatus?: SortOrder
+    razorpayOrderId?: SortOrder
+    razorpayPaymentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
+    subtotalAmount?: SortOrder
+    discountAmount?: SortOrder
     totalAmount?: SortOrder
   }
 
@@ -18228,6 +20105,10 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     variantId?: SortOrder
+    productName?: SortOrder
+    size?: SortOrder
+    color?: SortOrder
+    sku?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
   }
@@ -18241,6 +20122,10 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     variantId?: SortOrder
+    productName?: SortOrder
+    size?: SortOrder
+    color?: SortOrder
+    sku?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
   }
@@ -18249,6 +20134,10 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     variantId?: SortOrder
+    productName?: SortOrder
+    size?: SortOrder
+    color?: SortOrder
+    sku?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
   }
@@ -18623,6 +20512,13 @@ export namespace Prisma {
     connect?: ProductVariantWhereUniqueInput | ProductVariantWhereUniqueInput[]
   }
 
+  export type WishlistItemCreateNestedManyWithoutProductInput = {
+    create?: XOR<WishlistItemCreateWithoutProductInput, WishlistItemUncheckedCreateWithoutProductInput> | WishlistItemCreateWithoutProductInput[] | WishlistItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutProductInput | WishlistItemCreateOrConnectWithoutProductInput[]
+    createMany?: WishlistItemCreateManyProductInputEnvelope
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+  }
+
   export type ProductImageUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<ProductImageCreateWithoutProductInput, ProductImageUncheckedCreateWithoutProductInput> | ProductImageCreateWithoutProductInput[] | ProductImageUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutProductInput | ProductImageCreateOrConnectWithoutProductInput[]
@@ -18635,6 +20531,13 @@ export namespace Prisma {
     connectOrCreate?: ProductVariantCreateOrConnectWithoutProductInput | ProductVariantCreateOrConnectWithoutProductInput[]
     createMany?: ProductVariantCreateManyProductInputEnvelope
     connect?: ProductVariantWhereUniqueInput | ProductVariantWhereUniqueInput[]
+  }
+
+  export type WishlistItemUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<WishlistItemCreateWithoutProductInput, WishlistItemUncheckedCreateWithoutProductInput> | WishlistItemCreateWithoutProductInput[] | WishlistItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutProductInput | WishlistItemCreateOrConnectWithoutProductInput[]
+    createMany?: WishlistItemCreateManyProductInputEnvelope
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
   }
 
   export type CategoryUpdateOneRequiredWithoutProductsNestedInput = {
@@ -18673,6 +20576,20 @@ export namespace Prisma {
     deleteMany?: ProductVariantScalarWhereInput | ProductVariantScalarWhereInput[]
   }
 
+  export type WishlistItemUpdateManyWithoutProductNestedInput = {
+    create?: XOR<WishlistItemCreateWithoutProductInput, WishlistItemUncheckedCreateWithoutProductInput> | WishlistItemCreateWithoutProductInput[] | WishlistItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutProductInput | WishlistItemCreateOrConnectWithoutProductInput[]
+    upsert?: WishlistItemUpsertWithWhereUniqueWithoutProductInput | WishlistItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: WishlistItemCreateManyProductInputEnvelope
+    set?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    disconnect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    delete?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    update?: WishlistItemUpdateWithWhereUniqueWithoutProductInput | WishlistItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: WishlistItemUpdateManyWithWhereWithoutProductInput | WishlistItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
+  }
+
   export type ProductImageUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<ProductImageCreateWithoutProductInput, ProductImageUncheckedCreateWithoutProductInput> | ProductImageCreateWithoutProductInput[] | ProductImageUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutProductInput | ProductImageCreateOrConnectWithoutProductInput[]
@@ -18699,6 +20616,20 @@ export namespace Prisma {
     update?: ProductVariantUpdateWithWhereUniqueWithoutProductInput | ProductVariantUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: ProductVariantUpdateManyWithWhereWithoutProductInput | ProductVariantUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: ProductVariantScalarWhereInput | ProductVariantScalarWhereInput[]
+  }
+
+  export type WishlistItemUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<WishlistItemCreateWithoutProductInput, WishlistItemUncheckedCreateWithoutProductInput> | WishlistItemCreateWithoutProductInput[] | WishlistItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutProductInput | WishlistItemCreateOrConnectWithoutProductInput[]
+    upsert?: WishlistItemUpsertWithWhereUniqueWithoutProductInput | WishlistItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: WishlistItemCreateManyProductInputEnvelope
+    set?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    disconnect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    delete?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    update?: WishlistItemUpdateWithWhereUniqueWithoutProductInput | WishlistItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: WishlistItemUpdateManyWithWhereWithoutProductInput | WishlistItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
   }
 
   export type ProductCreateNestedOneWithoutImagesInput = {
@@ -18919,12 +20850,82 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type WishlistItemCreateNestedManyWithoutWishlistInput = {
+    create?: XOR<WishlistItemCreateWithoutWishlistInput, WishlistItemUncheckedCreateWithoutWishlistInput> | WishlistItemCreateWithoutWishlistInput[] | WishlistItemUncheckedCreateWithoutWishlistInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutWishlistInput | WishlistItemCreateOrConnectWithoutWishlistInput[]
+    createMany?: WishlistItemCreateManyWishlistInputEnvelope
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+  }
+
+  export type WishlistItemUncheckedCreateNestedManyWithoutWishlistInput = {
+    create?: XOR<WishlistItemCreateWithoutWishlistInput, WishlistItemUncheckedCreateWithoutWishlistInput> | WishlistItemCreateWithoutWishlistInput[] | WishlistItemUncheckedCreateWithoutWishlistInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutWishlistInput | WishlistItemCreateOrConnectWithoutWishlistInput[]
+    createMany?: WishlistItemCreateManyWishlistInputEnvelope
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutWishlistNestedInput = {
     create?: XOR<UserCreateWithoutWishlistInput, UserUncheckedCreateWithoutWishlistInput>
     connectOrCreate?: UserCreateOrConnectWithoutWishlistInput
     upsert?: UserUpsertWithoutWishlistInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWishlistInput, UserUpdateWithoutWishlistInput>, UserUncheckedUpdateWithoutWishlistInput>
+  }
+
+  export type WishlistItemUpdateManyWithoutWishlistNestedInput = {
+    create?: XOR<WishlistItemCreateWithoutWishlistInput, WishlistItemUncheckedCreateWithoutWishlistInput> | WishlistItemCreateWithoutWishlistInput[] | WishlistItemUncheckedCreateWithoutWishlistInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutWishlistInput | WishlistItemCreateOrConnectWithoutWishlistInput[]
+    upsert?: WishlistItemUpsertWithWhereUniqueWithoutWishlistInput | WishlistItemUpsertWithWhereUniqueWithoutWishlistInput[]
+    createMany?: WishlistItemCreateManyWishlistInputEnvelope
+    set?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    disconnect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    delete?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    update?: WishlistItemUpdateWithWhereUniqueWithoutWishlistInput | WishlistItemUpdateWithWhereUniqueWithoutWishlistInput[]
+    updateMany?: WishlistItemUpdateManyWithWhereWithoutWishlistInput | WishlistItemUpdateManyWithWhereWithoutWishlistInput[]
+    deleteMany?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
+  }
+
+  export type WishlistItemUncheckedUpdateManyWithoutWishlistNestedInput = {
+    create?: XOR<WishlistItemCreateWithoutWishlistInput, WishlistItemUncheckedCreateWithoutWishlistInput> | WishlistItemCreateWithoutWishlistInput[] | WishlistItemUncheckedCreateWithoutWishlistInput[]
+    connectOrCreate?: WishlistItemCreateOrConnectWithoutWishlistInput | WishlistItemCreateOrConnectWithoutWishlistInput[]
+    upsert?: WishlistItemUpsertWithWhereUniqueWithoutWishlistInput | WishlistItemUpsertWithWhereUniqueWithoutWishlistInput[]
+    createMany?: WishlistItemCreateManyWishlistInputEnvelope
+    set?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    disconnect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    delete?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    connect?: WishlistItemWhereUniqueInput | WishlistItemWhereUniqueInput[]
+    update?: WishlistItemUpdateWithWhereUniqueWithoutWishlistInput | WishlistItemUpdateWithWhereUniqueWithoutWishlistInput[]
+    updateMany?: WishlistItemUpdateManyWithWhereWithoutWishlistInput | WishlistItemUpdateManyWithWhereWithoutWishlistInput[]
+    deleteMany?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
+  }
+
+  export type WishlistCreateNestedOneWithoutItemsInput = {
+    create?: XOR<WishlistCreateWithoutItemsInput, WishlistUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: WishlistCreateOrConnectWithoutItemsInput
+    connect?: WishlistWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutWishlistItemsInput = {
+    create?: XOR<ProductCreateWithoutWishlistItemsInput, ProductUncheckedCreateWithoutWishlistItemsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutWishlistItemsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type WishlistUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<WishlistCreateWithoutItemsInput, WishlistUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: WishlistCreateOrConnectWithoutItemsInput
+    upsert?: WishlistUpsertWithoutItemsInput
+    connect?: WishlistWhereUniqueInput
+    update?: XOR<XOR<WishlistUpdateToOneWithWhereWithoutItemsInput, WishlistUpdateWithoutItemsInput>, WishlistUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutWishlistItemsNestedInput = {
+    create?: XOR<ProductCreateWithoutWishlistItemsInput, ProductUncheckedCreateWithoutWishlistItemsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutWishlistItemsInput
+    upsert?: ProductUpsertWithoutWishlistItemsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutWishlistItemsInput, ProductUpdateWithoutWishlistItemsInput>, ProductUncheckedUpdateWithoutWishlistItemsInput>
   }
 
   export type UserCreateNestedOneWithoutOrdersInput = {
@@ -19406,9 +21407,21 @@ export namespace Prisma {
 
   export type OrderCreateWithoutUserInput = {
     id?: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemCreateNestedManyWithoutOrderInput
@@ -19416,9 +21429,21 @@ export namespace Prisma {
 
   export type OrderUncheckedCreateWithoutUserInput = {
     id?: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
@@ -19437,11 +21462,13 @@ export namespace Prisma {
   export type WishlistCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
+    items?: WishlistItemCreateNestedManyWithoutWishlistInput
   }
 
   export type WishlistUncheckedCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
+    items?: WishlistItemUncheckedCreateNestedManyWithoutWishlistInput
   }
 
   export type WishlistCreateOrConnectWithoutUserInput = {
@@ -19531,9 +21558,21 @@ export namespace Prisma {
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
     id?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
+    subtotalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFilter<"Order"> | string
+    shippingPhone?: StringFilter<"Order"> | string
+    shippingAddressLine1?: StringFilter<"Order"> | string
+    shippingAddressLine2?: StringNullableFilter<"Order"> | string | null
+    shippingCity?: StringFilter<"Order"> | string
+    shippingState?: StringFilter<"Order"> | string
+    shippingCountry?: StringFilter<"Order"> | string
+    shippingPostalCode?: StringFilter<"Order"> | string
     totalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+    razorpayOrderId?: StringNullableFilter<"Order"> | string | null
+    razorpayPaymentId?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
   }
@@ -19552,11 +21591,13 @@ export namespace Prisma {
   export type WishlistUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WishlistItemUpdateManyWithoutWishlistNestedInput
   }
 
   export type WishlistUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WishlistItemUncheckedUpdateManyWithoutWishlistNestedInput
   }
 
   export type UserCreateWithoutAddressesInput = {
@@ -19650,6 +21691,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageCreateNestedManyWithoutProductInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutCategoryInput = {
@@ -19663,6 +21705,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutCategoryInput = {
@@ -19787,6 +21830,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WishlistItemCreateWithoutProductInput = {
+    id?: string
+    createdAt?: Date | string
+    wishlist: WishlistCreateNestedOneWithoutItemsInput
+  }
+
+  export type WishlistItemUncheckedCreateWithoutProductInput = {
+    id?: string
+    wishlistId: string
+    createdAt?: Date | string
+  }
+
+  export type WishlistItemCreateOrConnectWithoutProductInput = {
+    where: WishlistItemWhereUniqueInput
+    create: XOR<WishlistItemCreateWithoutProductInput, WishlistItemUncheckedCreateWithoutProductInput>
+  }
+
+  export type WishlistItemCreateManyProductInputEnvelope = {
+    data: WishlistItemCreateManyProductInput | WishlistItemCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CategoryUpsertWithoutProductsInput = {
     update: XOR<CategoryUpdateWithoutProductsInput, CategoryUncheckedUpdateWithoutProductsInput>
     create: XOR<CategoryCreateWithoutProductsInput, CategoryUncheckedCreateWithoutProductsInput>
@@ -19872,6 +21937,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ProductVariant"> | Date | string
   }
 
+  export type WishlistItemUpsertWithWhereUniqueWithoutProductInput = {
+    where: WishlistItemWhereUniqueInput
+    update: XOR<WishlistItemUpdateWithoutProductInput, WishlistItemUncheckedUpdateWithoutProductInput>
+    create: XOR<WishlistItemCreateWithoutProductInput, WishlistItemUncheckedCreateWithoutProductInput>
+  }
+
+  export type WishlistItemUpdateWithWhereUniqueWithoutProductInput = {
+    where: WishlistItemWhereUniqueInput
+    data: XOR<WishlistItemUpdateWithoutProductInput, WishlistItemUncheckedUpdateWithoutProductInput>
+  }
+
+  export type WishlistItemUpdateManyWithWhereWithoutProductInput = {
+    where: WishlistItemScalarWhereInput
+    data: XOR<WishlistItemUpdateManyMutationInput, WishlistItemUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type WishlistItemScalarWhereInput = {
+    AND?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
+    OR?: WishlistItemScalarWhereInput[]
+    NOT?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
+    id?: StringFilter<"WishlistItem"> | string
+    wishlistId?: StringFilter<"WishlistItem"> | string
+    productId?: StringFilter<"WishlistItem"> | string
+    createdAt?: DateTimeFilter<"WishlistItem"> | Date | string
+  }
+
   export type ProductCreateWithoutImagesInput = {
     id?: string
     name: string
@@ -19883,6 +21974,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutImagesInput = {
@@ -19896,6 +21988,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutImagesInput = {
@@ -19925,6 +22018,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutImagesInput = {
@@ -19938,6 +22032,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type CartItemCreateWithoutVariantInput = {
@@ -19964,6 +22059,10 @@ export namespace Prisma {
 
   export type OrderItemCreateWithoutVariantInput = {
     id?: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
     order: OrderCreateNestedOneWithoutItemsInput
@@ -19972,6 +22071,10 @@ export namespace Prisma {
   export type OrderItemUncheckedCreateWithoutVariantInput = {
     id?: string
     orderId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
   }
@@ -19997,6 +22100,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutVariantsInput = {
@@ -20010,6 +22114,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    wishlistItems?: WishlistItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutVariantsInput = {
@@ -20066,6 +22171,10 @@ export namespace Prisma {
     id?: StringFilter<"OrderItem"> | string
     orderId?: StringFilter<"OrderItem"> | string
     variantId?: StringFilter<"OrderItem"> | string
+    productName?: StringFilter<"OrderItem"> | string
+    size?: StringFilter<"OrderItem"> | string
+    color?: StringFilter<"OrderItem"> | string
+    sku?: StringFilter<"OrderItem"> | string
     quantity?: IntFilter<"OrderItem"> | number
     price?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
   }
@@ -20092,6 +22201,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutVariantsInput = {
@@ -20105,6 +22215,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type UserCreateWithoutCartInput = {
@@ -20374,6 +22485,28 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutWishlistInput, UserUncheckedCreateWithoutWishlistInput>
   }
 
+  export type WishlistItemCreateWithoutWishlistInput = {
+    id?: string
+    createdAt?: Date | string
+    product: ProductCreateNestedOneWithoutWishlistItemsInput
+  }
+
+  export type WishlistItemUncheckedCreateWithoutWishlistInput = {
+    id?: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type WishlistItemCreateOrConnectWithoutWishlistInput = {
+    where: WishlistItemWhereUniqueInput
+    create: XOR<WishlistItemCreateWithoutWishlistInput, WishlistItemUncheckedCreateWithoutWishlistInput>
+  }
+
+  export type WishlistItemCreateManyWishlistInputEnvelope = {
+    data: WishlistItemCreateManyWishlistInput | WishlistItemCreateManyWishlistInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutWishlistInput = {
     update: XOR<UserUpdateWithoutWishlistInput, UserUncheckedUpdateWithoutWishlistInput>
     create: XOR<UserCreateWithoutWishlistInput, UserUncheckedCreateWithoutWishlistInput>
@@ -20417,6 +22550,134 @@ export namespace Prisma {
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type WishlistItemUpsertWithWhereUniqueWithoutWishlistInput = {
+    where: WishlistItemWhereUniqueInput
+    update: XOR<WishlistItemUpdateWithoutWishlistInput, WishlistItemUncheckedUpdateWithoutWishlistInput>
+    create: XOR<WishlistItemCreateWithoutWishlistInput, WishlistItemUncheckedCreateWithoutWishlistInput>
+  }
+
+  export type WishlistItemUpdateWithWhereUniqueWithoutWishlistInput = {
+    where: WishlistItemWhereUniqueInput
+    data: XOR<WishlistItemUpdateWithoutWishlistInput, WishlistItemUncheckedUpdateWithoutWishlistInput>
+  }
+
+  export type WishlistItemUpdateManyWithWhereWithoutWishlistInput = {
+    where: WishlistItemScalarWhereInput
+    data: XOR<WishlistItemUpdateManyMutationInput, WishlistItemUncheckedUpdateManyWithoutWishlistInput>
+  }
+
+  export type WishlistCreateWithoutItemsInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutWishlistInput
+  }
+
+  export type WishlistUncheckedCreateWithoutItemsInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type WishlistCreateOrConnectWithoutItemsInput = {
+    where: WishlistWhereUniqueInput
+    create: XOR<WishlistCreateWithoutItemsInput, WishlistUncheckedCreateWithoutItemsInput>
+  }
+
+  export type ProductCreateWithoutWishlistItemsInput = {
+    id?: string
+    name: string
+    slug: string
+    description: string
+    brand?: string | null
+    isPublished?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: CategoryCreateNestedOneWithoutProductsInput
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    variants?: ProductVariantCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutWishlistItemsInput = {
+    id?: string
+    categoryId: string
+    name: string
+    slug: string
+    description: string
+    brand?: string | null
+    isPublished?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutWishlistItemsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutWishlistItemsInput, ProductUncheckedCreateWithoutWishlistItemsInput>
+  }
+
+  export type WishlistUpsertWithoutItemsInput = {
+    update: XOR<WishlistUpdateWithoutItemsInput, WishlistUncheckedUpdateWithoutItemsInput>
+    create: XOR<WishlistCreateWithoutItemsInput, WishlistUncheckedCreateWithoutItemsInput>
+    where?: WishlistWhereInput
+  }
+
+  export type WishlistUpdateToOneWithWhereWithoutItemsInput = {
+    where?: WishlistWhereInput
+    data: XOR<WishlistUpdateWithoutItemsInput, WishlistUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type WishlistUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWishlistNestedInput
+  }
+
+  export type WishlistUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductUpsertWithoutWishlistItemsInput = {
+    update: XOR<ProductUpdateWithoutWishlistItemsInput, ProductUncheckedUpdateWithoutWishlistItemsInput>
+    create: XOR<ProductCreateWithoutWishlistItemsInput, ProductUncheckedCreateWithoutWishlistItemsInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutWishlistItemsInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutWishlistItemsInput, ProductUncheckedUpdateWithoutWishlistItemsInput>
+  }
+
+  export type ProductUpdateWithoutWishlistItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    brand?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    variants?: ProductVariantUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutWishlistItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    brand?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+  }
+
   export type UserCreateWithoutOrdersInput = {
     id?: string
     email: string
@@ -20456,6 +22717,10 @@ export namespace Prisma {
 
   export type OrderItemCreateWithoutOrderInput = {
     id?: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
     variant: ProductVariantCreateNestedOneWithoutOrderItemsInput
@@ -20464,6 +22729,10 @@ export namespace Prisma {
   export type OrderItemUncheckedCreateWithoutOrderInput = {
     id?: string
     variantId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
   }
@@ -20539,9 +22808,21 @@ export namespace Prisma {
 
   export type OrderCreateWithoutItemsInput = {
     id?: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutOrdersInput
@@ -20550,9 +22831,21 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutItemsInput = {
     id?: string
     userId: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20606,9 +22899,21 @@ export namespace Prisma {
 
   export type OrderUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
@@ -20617,9 +22922,21 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20678,9 +22995,21 @@ export namespace Prisma {
 
   export type OrderCreateManyUserInput = {
     id?: string
+    subtotalAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    shippingFullName: string
+    shippingPhone: string
+    shippingAddressLine1: string
+    shippingAddressLine2?: string | null
+    shippingCity: string
+    shippingState: string
+    shippingCountry: string
+    shippingPostalCode: string
     totalAmount: Decimal | DecimalJsLike | number | string
     orderStatus?: $Enums.OrderStatus
     paymentStatus?: $Enums.PaymentStatus
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20732,9 +23061,21 @@ export namespace Prisma {
 
   export type OrderUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUpdateManyWithoutOrderNestedInput
@@ -20742,9 +23083,21 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
@@ -20752,9 +23105,21 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    subtotalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingFullName?: StringFieldUpdateOperationsInput | string
+    shippingPhone?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine1?: StringFieldUpdateOperationsInput | string
+    shippingAddressLine2?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingCity?: StringFieldUpdateOperationsInput | string
+    shippingState?: StringFieldUpdateOperationsInput | string
+    shippingCountry?: StringFieldUpdateOperationsInput | string
+    shippingPostalCode?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     orderStatus?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20781,6 +23146,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUpdateManyWithoutProductNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutCategoryInput = {
@@ -20794,6 +23160,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    wishlistItems?: WishlistItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
@@ -20823,6 +23190,12 @@ export namespace Prisma {
     stock: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type WishlistItemCreateManyProductInput = {
+    id?: string
+    wishlistId: string
+    createdAt?: Date | string
   }
 
   export type ProductImageUpdateWithoutProductInput = {
@@ -20883,6 +23256,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WishlistItemUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    wishlist?: WishlistUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type WishlistItemUncheckedUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    wishlistId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WishlistItemUncheckedUpdateManyWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    wishlistId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CartItemCreateManyVariantInput = {
     id?: string
     cartId: string
@@ -20892,6 +23283,10 @@ export namespace Prisma {
   export type OrderItemCreateManyVariantInput = {
     id?: string
     orderId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
   }
@@ -20916,6 +23311,10 @@ export namespace Prisma {
 
   export type OrderItemUpdateWithoutVariantInput = {
     id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     order?: OrderUpdateOneRequiredWithoutItemsNestedInput
@@ -20924,6 +23323,10 @@ export namespace Prisma {
   export type OrderItemUncheckedUpdateWithoutVariantInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -20931,6 +23334,10 @@ export namespace Prisma {
   export type OrderItemUncheckedUpdateManyWithoutVariantInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -20959,15 +23366,47 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
+  export type WishlistItemCreateManyWishlistInput = {
+    id?: string
+    productId: string
+    createdAt?: Date | string
+  }
+
+  export type WishlistItemUpdateWithoutWishlistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutWishlistItemsNestedInput
+  }
+
+  export type WishlistItemUncheckedUpdateWithoutWishlistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WishlistItemUncheckedUpdateManyWithoutWishlistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrderItemCreateManyOrderInput = {
     id?: string
     variantId: string
+    productName: string
+    size: string
+    color: string
+    sku: string
     quantity: number
     price: Decimal | DecimalJsLike | number | string
   }
 
   export type OrderItemUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     variant?: ProductVariantUpdateOneRequiredWithoutOrderItemsNestedInput
@@ -20976,6 +23415,10 @@ export namespace Prisma {
   export type OrderItemUncheckedUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     variantId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -20983,6 +23426,10 @@ export namespace Prisma {
   export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     variantId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    size?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sku?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }

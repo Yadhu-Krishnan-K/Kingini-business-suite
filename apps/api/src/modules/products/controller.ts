@@ -48,13 +48,26 @@ class ProductController {
     next: NextFunction,
   ) {
     try {
-      const { page, limit, category, size, color, minPrice, maxPrice } =
-        productPaginationSchema.parse(req.query);
+      const {
+        page,
+        limit,
+        search,
+        sortBy,
+        sortOrder,
+        category,
+        size,
+        color,
+        minPrice,
+        maxPrice,
+      } = productPaginationSchema.parse(req.query);
 
       const { products, pagination } = await productService.getProducts(
         page,
         limit,
         {
+          search,
+          sortBy,
+          sortOrder,
           category,
           size,
           color,

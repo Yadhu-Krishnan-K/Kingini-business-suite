@@ -24,6 +24,17 @@ export const createProductVariantSchema = z.object({
 export const productPaginationSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(10),
+
+  search: z.string().trim().min(1).optional(),
+    
+  sortBy: z
+    .enum(["price", "createdAt"])
+    .default("createdAt"),
+
+  sortOrder: z
+    .enum(["asc", "desc"])
+    .default("desc"),
+
   category: z.string().trim().min(1).optional(),
   size: z.string().trim().min(1).optional(),
   color: z.string().trim().min(1).optional(),

@@ -27,6 +27,9 @@ class ProductRepository {
 
   async findAll(skip: number, take: number, filters: ProductFilters) {
     const {
+      search,
+      sortBy,
+      sortOrder,
       category,
       size,
       color,
@@ -35,6 +38,14 @@ class ProductRepository {
     } = filters;
 
     const where = {
+      ...(search && {
+        OR: [
+          { name: { contains: search, mode: "insensitive" } },
+          { description: { contains: search, mode: "insensitive" } },
+          { brand: { contains: search, mode: "insensitive" } },
+        ],
+      }),
+
       ...(category && {
         category: {
           slug: category,
@@ -61,25 +72,43 @@ class ProductRepository {
         : {}),
     };
 
-    const [products, total] = await prisma.$transaction([
-      prisma.product.findMany({
-        where,
-        skip,
-        take,
-        include: {
-          category: true,
-          images: true,
-          variants: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      }),
+    const allProducts = await prisma.product.findMany({
+      where,
+      include: {
+        category: true,
+        images: true,
+        variants: true,
+      },
+    });
 
-      prisma.product.count({
-        where,
-      }),
-    ]);
+    const direction = sortOrder === "asc" ? 1 : -1;
+
+    if (sortBy === "price") {
+      allProducts.sort((a, b) => {
+        const aPrice =
+          a.variants.length > 0
+            ? Math.min(...a.variants.map((variant) => Number(variant.price)))
+            : Infinity;
+
+        const bPrice =
+          b.variants.length > 0
+            ? Math.min(...b.variants.map((variant) => Number(variant.price)))
+            : Infinity;
+
+        return (aPrice - bPrice) * direction;
+      });
+    } else {
+      allProducts.sort((a, b) => {
+        return (
+          (new Date(a.createdAt).getTime() -
+            new Date(b.createdAt).getTime()) *
+          direction
+        );
+      });
+    }
+
+    const total = allProducts.length;
+    const products = allProducts.slice(skip, skip + take);
 
     return {
       products,

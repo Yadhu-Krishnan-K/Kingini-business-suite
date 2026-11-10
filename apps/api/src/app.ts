@@ -5,11 +5,16 @@ import cookieParser from "cookie-parser";
 import apiRouter from "./routes/index.ts"
 import { notFoundHandler } from "./middlewares/notFoundHandler.ts";
 import { errorHandler } from "./middlewares/errorHandler.ts";
-import {requestLogger} from "./middlewares/requestLogger.ts";
+import { requestLogger } from "./middlewares/requestLogger.ts";
 
 const app: Application = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+    }),
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

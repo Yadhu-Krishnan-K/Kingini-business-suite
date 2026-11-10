@@ -209,12 +209,31 @@ exports.Prisma.WishlistScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.WishlistItemScalarFieldEnum = {
+  id: 'id',
+  wishlistId: 'wishlistId',
+  productId: 'productId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  subtotalAmount: 'subtotalAmount',
+  discountAmount: 'discountAmount',
+  shippingFullName: 'shippingFullName',
+  shippingPhone: 'shippingPhone',
+  shippingAddressLine1: 'shippingAddressLine1',
+  shippingAddressLine2: 'shippingAddressLine2',
+  shippingCity: 'shippingCity',
+  shippingState: 'shippingState',
+  shippingCountry: 'shippingCountry',
+  shippingPostalCode: 'shippingPostalCode',
   totalAmount: 'totalAmount',
   orderStatus: 'orderStatus',
   paymentStatus: 'paymentStatus',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -223,6 +242,10 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   variantId: 'variantId',
+  productName: 'productName',
+  size: 'size',
+  color: 'color',
+  sku: 'sku',
   quantity: 'quantity',
   price: 'price'
 };
@@ -282,6 +305,7 @@ exports.Prisma.ModelName = {
   Cart: 'Cart',
   CartItem: 'CartItem',
   Wishlist: 'Wishlist',
+  WishlistItem: 'WishlistItem',
   Order: 'Order',
   OrderItem: 'OrderItem',
   Coupon: 'Coupon'
